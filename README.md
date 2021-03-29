@@ -863,3 +863,225 @@ Always use the setState() method to change the state object, it will ensure that
  
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
+# React Lifecycle
+Lifecycle of Components
+
+Each component in React has a lifecycle which you can monitor and manipulate during its three main phases.
+
+The three phases are: __Mounting, Updating, and Unmounting.__
+
+#### Mounting
+__Mounting means putting elements into the DOM.__
+
+React has four built-in methods that gets called, in this order, when mounting a component:
+
+1. constructor()
+
+1. getDerivedStateFromProps()
+
+1. render()
+
+1. componentDidMount()
+
+The render() method is required and will always be called, the others are optional and will be called if you define them.
+
+
+__constructor
+
+The constructor() method is called before anything else, when the component is initiated, and it is the natural place to set up the initial __state__ and other initial values.
+
+The constructor() method is called with the __props__, as arguments, and you should always start by calling the __super(props)__ before anything else, this will initiate the parent's constructor method and allows the component to inherit methods from its parent (__React.Component__).
+
+Example:
+
+The constructor method is called, by React, every time you make a component:
+
+''' react
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {favoritecolor: "red"};
+  }
+  render() {
+    return (
+      <h1>My Favorite Color is {this.state.favoritecolor}</h1>
+    );
+  }
+}
+
+'''
+ReactDOM.render(<Header />, document.getElementById('root'));
+
+__getDerivedStateFromProps
+
+The getDerivedStateFromProps() method is **called right before rendering the element(s) in the DOM**.
+
+This is the natural place to set the __state__ object based on the initial props.
+
+It takes __state__ as an argument, and returns an object with changes to the __state__.
+
+__Example:
+
+The getDerivedStateFromProps method is called right before the render method:
+
+''' react
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {favoritecolor: "red"};
+  }
+  static getDerivedStateFromProps(props, state) {
+    return {favoritecolor: props.favcol };
+  }
+  render() {
+    return (
+      <h1>My Favorite Color is {this.state.favoritecolor}</h1>
+    );
+  }
+}
+
+ReactDOM.render(<Header favcol="yellow"/>, document.getElementById('root'));
+'''
+
+__render__
+
+The render() method is required, and is the method that actually __outputs the HTML to the DOM__.
+
+__Example:__
+
+A simple component with a simple render() method:
+
+''' react
+class Header extends React.Component {
+  render() {
+    return (
+      <h1>This is the content of the Header component</h1>
+    );
+  }
+}
+
+ReactDOM.render(<Header />, document.getElementById('root'));
+'''
+
+__componentDidMount__
+
+The componentDidMount() method is __called after the component is rendered__.
+
+This is where you run statements that requires that the component is already placed in the DOM.
+
+Example:
+At first my favorite color is red, but give me a second, and it is yellow instead:
+
+''' react
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {favoritecolor: "red"};
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({favoritecolor: "yellow"})
+    }, 1000)
+  }
+  render() {
+    return (
+      <h1>My Favorite Color is {this.state.favoritecolor}</h1>
+    );
+  }
+}
+
+ReactDOM.render(<Header />, document.getElementById('root'));
+'''
+
+#### Updating
+
+The next phase in the lifecycle is __when a component is updated__.
+
+A component is __updated whenever there is a change in the component's state or props.
+
+React has __five built-in methods__ that gets called, in this order, when a component is updated:
+
+1. getDerivedStateFromProps()
+1. shouldComponentUpdate()
+1. render()
+1. getSnapshotBeforeUpdate()
+1. componentDidUpdate()
+
+The __render()__ method is __required and will always be called__, the others are optional and will be called if you define them.
+
+
+
+#### Unmounting
+
+The next phase in the lifecycle is __when a component is removed from the DOM__, or unmounting as React likes to call it.
+
+React has only one built-in method that gets called when a component is unmounted:
+
+__componentWillUnmount()__
+
+##### componentWillUnmount
+The componentWillUnmount method is called when the component is about to be removed from the DOM.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## React Events
+
+Just like HTML, React can __perform actions based on user events__.
+
+React has the same events as HTML: __click, change, mouseover etc.
+
+__Adding Events__
+
+React events are written in camelCase syntax:
+
+__onClick__ instead of __onclick__.
+
+React event handlers are written inside curly braces:
+
+__onClick={shoot}__  instead of __onClick="shoot()"__.
+
+React:
+
+'''react
+<button onClick={shoot}>Take the Shot!</button>
+'''
+
+HTML:
+
+'''HTML
+<button onclick="shoot()">Take the Shot!</button>
+'''
+
+#### Event Handlers
+A good practice is to put the event handler as a method in the component class:
+
+Example:
+Put the shoot function inside the Football component:
+
+'''
+class Football extends React.Component {
+  shoot() {
+    alert("Great Shot!");
+  }
+  render() {
+    return (
+      <button onClick={this.shoot}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+'''
+
+#### Bind this
+__For methods__ in React, the __this keyword should represent the component that owns the method__.
+
+That is why you should use arrow functions. With arrow functions, this will always represent the object that defined the arrow function.
+
+__Why Arrow Functions?
+
+In class components, the this keyword is not defined by default, so with __regular functions the this keyword represents the object that called the method__, which can be the __global window object, a HTML button, or whatever__.
+
+Read more about binding this in our React ES6 'What About this?' chapter.
+
+If you use regular functions instead of arrow functions you have to bind this to the component instance using the bind() method:
+
