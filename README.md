@@ -170,7 +170,7 @@ In regular functions the this keyword represented the 'object that called the fu
 With arrow functions, the this keyword always represents the 'object that defined the arrow function'.
 
 
-Variables
+# Variables
 Before ES6 there were only one way of defining your variables: with the var keyword. If you did not define them, they would be assigned to the global object. Unless you were in strict mode, then you would get an error if your variables were undefined.
 
 Now, with ES6, there are three ways of defining your variables: var, let, and const.
@@ -189,7 +189,7 @@ If you use var inside of a block, i.e. a for loop, the variable is still availab
 let
 let x = 5.6;
 
-# let has a block scope.
+# Note: let has a block scope.
 
 let is the block scoped version of var, and is limited to the block (or expression) where it is defined.
 
@@ -202,6 +202,664 @@ const is a variable that once it has been created, its value can never change.
 
 # Note:const has a block scope.
 
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+React Render HTML
+
+React's goal is in many ways to render HTML in a web page.
+
+React renders HTML to the web page by using a function called ReactDOM.render().
+
+The Render Function
+The ReactDOM.render() function takes two arguments, HTML code and an HTML element.
+
+The purpose of the function is to display the specified HTML code inside the specified HTML element.
+
+## Example
+
+Display a paragraph inside the "root" element:
+
+ReactDOM.render(<p>Hello</p>, document.getElementById('root'));
+
+The result is displayed in the <div id="root"> element:
+
+<body>
+
+  <div id="root"></div>
+
+</body>
 
 
+### The HTML Code
+The HTML code in this tutorial uses 'JSX' which allows you to write HTML tags inside the JavaScript code:
+
+Example
+Create a variable that contains HTML code and display it in the root node:
+
+const myelement = (
+  <table>
+    <tr>
+      <th>Name</th>
+    </tr>
+    <tr>
+      <td>John</td>
+    </tr>
+    <tr>
+      <td>Elsa</td>
+    </tr>
+  </table>
+);
+
+ReactDOM.render(myelement, document.getElementById('root'));
+
+
+### The Root Node
+The root node is the HTML element where you want to display the result.
+
+It is like a container for content managed by React.
+
+It does NOT have to be a <div> element and it does NOT have to have the id='root':
+  
+  
+### Example
+The root node can be called whatever you like:
+
+<body>
+
+  <header id="sandy"></header>
+
+</body>
+Display the result in the <header id="sandy"> element:
+
+ReactDOM.render(<p>Hallo</p>, document.getElementById('sandy'));
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## What is JSX?
+JSX stands for JavaScript XML.
+
+JSX allows us to write HTML in React.
+
+JSX makes it easier to write and add HTML in React.
+
+
+#### Coding JSX
+
+JSX allows us to write HTML elements in JavaScript and place them in the DOM without any createElement()  and/or appendChild() methods.
+
+JSX converts HTML tags into react elements.
+
+You are not required to use JSX, but JSX makes it easier to write React applications.
+
+
+Example 1       
+JSX:
+
+const myelement = <h1>I Love JSX!</h1>;
+
+ReactDOM.render(myelement, document.getElementById('root'));
+
+Example 2     
+Without JSX:
+
+const myelement = React.createElement('h1', {}, 'I do not use JSX!');
+
+ReactDOM.render(myelement, document.getElementById('root'));
+
+
+Expressions in JSX
+
+With JSX you can write expressions inside curly braces { }.
+
+The expression can be a React variable, or property, or any other valid JavaScript expression. JSX will execute the expression and return the result:
+
+Example
+Execute the expression 5 + 5:
+
+
+const myelement = <h1>React is {5 + 5} times better with JSX</h1>;
+
+
+
+Inserting a Large Block of HTML
+To write HTML on multiple lines, put the HTML inside parentheses:
+
+Example
+Create a list with three list items:
+
+const myelement = (
+  <ul>
+    <li>Apples</li>
+    <li>Bananas</li>
+    <li>Cherries</li>
+  </ul>
+);
+
+
+
+One Top Level Element
+
+The HTML code must be wrapped in ONE top level element.
+
+So if you like to write two headers, you must put them inside a parent element, like a div element
+
+Example:                                        
+Wrap two headers inside one DIV element:
+
+const myelement = (
+
+  <div>
+  
+    <h1>I am a Header.</h1>
+    
+    <h1>I am a Header too.</h1>
+    
+  </div>
+  
+);
+
+
+Elements Must be Closed:
+JSX follows XML rules, and therefore HTML elements must be properly closed.
+
+Example:
+
+Close empty elements with />
+
+const myelement = <input type="text" />;
+
+JSX will throw an error if the HTML is not properly closed.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### React Components
+Components are independent and reusable bits of code. They serve the same purpose as JavaScript functions, but work in isolation and return HTML via a render() function.
+
+Components come in two types, Class components and Function components.
+
+
+Component Constructor
+
+If there is a constructor() function in your component, this function will be called when the component gets initiated.
+
+The constructor function is where you initiate the component's properties.
+
+In React, component properties should be kept in an object called state.
+
+
+The constructor function is also where you honor the inheritance of the parent component by including the super() statement, which executes the parent component's constructor function, and your component has access to all the functions of the parent component (React.Component).
+
+
+Example
+
+Create a constructor function in the Car component, and add a color property: and Use the color property in the render() function:
+
+class Car extends React.Component {
+
+  constructor() {
+  
+    super();
+    
+    this.state = {color: "red"};
+    
+  }
+  
+  render() {
+  
+    return <h2>I am a {this.state.color} Car!</h2>;
+    
+  }
+  
+}
+
+
+Props
+
+Another way of handling component properties is by using props.
+
+Props are like function arguments, and you send them into the component as attributes.
+
+Use an attribute to pass a color to the Car component, and use it in the render() function:
+
+Example
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a {this.props.color} Car!</h2>;
+    
+  }
+  
+}
+
+ReactDOM.render(<Car color="red"/>, document.getElementById('root'));
+
+
+
+Components in Components
+
+We can refer to components inside other components:
+
+Example
+
+Use the Car component inside the Garage component:
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a Car!</h2>;
+    
+  }
+  
+}
+
+
+class Garage extends React.Component {
+
+  render() {
+  
+    return (
+    
+      <div>
+      
+      <h1>Who lives in my Garage?</h1>
+      
+      <Car />
+      
+      </div>
+      
+    );
+    
+  }
+  
+}
+
+ReactDOM.render(<Garage />, document.getElementById('root'));
+ 
+
+
+Components in Files
+
+React is all about re-using code, and it can be smart to insert some of your components in separate files.
+
+To do that, create a new file with a .js file extension and put the code inside it:
+
+Note that the file must start by importing React (as before), and it has to end with the statement export default Car;.
+
+Example
+
+This is the new file, we named it "App.js":
+
+import React from 'react';
+
+import ReactDOM from 'react-dom';
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>Hi, I am a Car!</h2>;
+    
+  }
+  
+}
+
+export default Car;
+ 
+
+To be able to use the Car component, you have to import the file in your application.
+
+
+ Example
+ 
+Now we import the "App.js" file in the application, and we can use the Car component as if it was created here.
+
+import React from 'react';
+
+import ReactDOM from 'react-dom';
+
+import Car from './App.js';
+
+ReactDOM.render(<Car />, document.getElementById('root'));
+ 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## React Props
+
+Props are arguments passed into React components.
+
+Props are passed to components via HTML attributes.
+
+React Props are like function arguments in JavaScript and attributes in HTML.
+
+To send props into a component, use the same syntax as HTML attributes:
+
+Example
+
+Add a "brand" attribute to the Car element:
+
+const myelement = <Car brand="Ford" />;
+
+The component receives the argument as a props object:
+
+Example
+
+Use the brand attribute in the component:
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a {this.props.brand}!</h2>;
+    
+  }
+  
+}
+
+
+Pass Data
+
+Props are also how you pass data from one component to another, as parameters.
+
+Example
+
+Send the "brand" property from the Garage component to the Car component:
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a {this.props.brand}!</h2>;
+    
+  }
+  
+}
+
+class Garage extends React.Component {
+
+  render() {
+  
+    return (
+    
+      <div>
+      
+      <h1>Who lives in my garage?</h1>
+      
+      <Car brand="Ford" />
+      
+      </div>
+      
+    );
+    
+  }
+  
+}
+
+ReactDOM.render(<Garage />, document.getElementById('root'));
+
+
+If you have a variable to send, and not a string as in the example above, you just put the variable name inside curly brackets:
+
+Example
+
+Create a variable named "carname" and send it to the Car component:
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a {this.props.brand}!</h2>;
+    
+  }
+  
+}
+
+class Garage extends React.Component {
+
+  render() {
+  
+    const carname = "Ford";
+    
+    return (
+    
+      <div>
+      
+      <h1>Who lives in my garage?</h1>
+      
+      <Car brand={carname} />
+      
+      </div>
+      
+    );
+    
+  }
+  
+}
+
+ReactDOM.render(<Garage />, document.getElementById('root'));
+ 
+ 
+
+Or if it was an object:
+
+Example
+
+Create an object named "carinfo" and send it to the Car component:
+
+class Car extends React.Component {
+
+  render() {
+  
+    return <h2>I am a {this.props.brand.model}!</h2>;
+  }
+  
+}
+
+
+class Garage extends React.Component {
+
+  render() {
+  
+    const carinfo = {name: "Ford", model: "Mustang"};
+    
+    return (
+    
+      <div>
+      
+      <h1>Who lives in my garage?</h1>
+      
+      <Car brand={carinfo} />
+      
+      </div>
+      
+    );
+    
+  }
+  
+}
+
+ReactDOM.render(<Garage />, document.getElementById('root'));
+
+
+Props in the Constructor
+
+If your component has a constructor function, the props should always be passed to the constructor and also to the React.Component via the super() method.
+
+Example
+
+class Car extends React.Component {
+
+  constructor(props) {
+  
+    super(props);
+    
+  }
+  render() {
+  
+    return <h2>I am a {this.props.model}!</h2>;
+    
+  }
+  
+}
+
+ReactDOM.render(<Car model="Mustang"/>, document.getElementById('root'));
+ 
+Note: React Props are read-only! You will get an error if you try to change their value.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# React State
+React components has a built-in state object.
+
+The state object is where you store property values that belongs to the component.
+
+When the state object changes, the component re-renders.
+
+Creating the state Object
+
+The state object is initialized in the constructor:
+
+Example:
+
+Specify the state object in the constructor method:
+
+class Car extends React.Component {
+
+  constructor(props) {
+  
+    super(props);
+    
+    this.state = {brand: "Ford"};
+    
+  }
+  
+  render() {
+  
+    return (
+    
+      <div>
+      
+        <h1>My Car</h1>
+        
+      </div>
+      
+    );
+    
+  }
+  
+}
+
+
+The state object can contain as many properties as you like:
+
+Example:
+
+Specify all the properties your component need:
+
+class Car extends React.Component {
+
+  constructor(props) {
+  
+    super(props);
+    
+    this.state = {
+    
+      brand: "Ford",
+      model: "Mustang",
+      color: "red",
+      year: 1964
+    };
+    
+  }
+  
+  render() {
+  
+    return (
+    
+      <div>
+      
+        <h1>My Car</h1>
+        
+      </div>
+      
+    );
+    
+  }
+  
+}
+ 
+ 
+ 
+ Changing the state Object
+ 
+To change a value in the state object, use the this.setState() method.
+
+When a value in the state object changes, the component will re-render, meaning that the output will change according to the new value(s).
+
+Example:
+
+Add a button with an onClick event that will change the color property:
+
+class Car extends React.Component {
+
+  constructor(props) {
+  
+    super(props);
+    
+    this.state = {
+    
+      brand: "Ford",
+      model: "Mustang",
+      color: "red",
+      year: 1964
+    };
+    
+  }
+  
+  changeColor = () => {
+  
+    this.setState({color: "blue"});
+    
+  }
+  
+  render() {
+  
+    return (
+    
+      <div>
+      
+        <h1>My {this.state.brand}</h1>
+        
+        <p>
+        
+          It is a {this.state.color}
+          
+          {this.state.model}
+          
+          from {this.state.year}.
+          
+        </p>
+        
+        <button
+        
+          type="button"
+          
+          onClick={this.changeColor}
+          
+        >Change color</button>
+        
+      </div>
+      
+    );
+    
+  }
+  
+} 
+ 
+
+Always use the setState() method to change the state object, it will ensure that the component knows its been updated and calls the render() method (and all the other lifecycle methods).
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
